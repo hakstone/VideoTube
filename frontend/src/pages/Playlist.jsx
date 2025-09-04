@@ -43,12 +43,12 @@ const Playlist = () => {
           </div>
         ) : (
           playlist.videos?.map((v) => (
-            <div key={v._id} className="relative">
+            <div key={v._id} className="relative group">
               <VideoCard video={v} />
               {user?._id === playlist.owner?._id && (
                 <button
                   onClick={() => handleRemove(v._id)}
-                  className="absolute top-2 right-2 px-2 py-1 bg-red-600 text-xs text-white rounded cursor-pointer"
+                  className="absolute top-2 right-2 px-2 py-1 bg-red-600 text-xs text-white opacity-0 group-hover:opacity-100 hover:bg-red-700 rounded cursor-pointer transition-opacity duration-200"
                 >
                   Remove
                 </button>

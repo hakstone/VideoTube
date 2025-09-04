@@ -290,7 +290,7 @@ const VideoCardActions = ({ video }) => {
   );
 };
 
-const VideoCard = ({ video }) => {
+const VideoCard = ({ video, showActions = true }) => {
   const formatDuration = (duration) => {
     if (!duration) return "--:--";
     const minutes = Math.floor(duration / 60);
@@ -340,7 +340,7 @@ const VideoCard = ({ video }) => {
       </Link>
 
       {/* Action Buttons - Outside the video card content */}
-      <VideoCardActions video={video} />
+      {showActions && <VideoCardActions video={video} />}
     </div>
   );
 };

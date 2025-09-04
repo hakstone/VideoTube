@@ -415,22 +415,23 @@ const getVideoById = asyncHandler(async (req, res) => {
 
     const video = videoAggregate[0]
 
-    // Increment views and add to watch history if user is logged in
-    await Video.findByIdAndUpdate(videoId, {
-        $inc: { views: 1 }
-    })
+    // await Video.findByIdAndUpdate(videoId, {
+    //     $inc: { views: 1 }
+    // })
 
-    // Add to user's watch history (only if user is logged in)
-    if (req.user?._id) {
-        await User.findByIdAndUpdate(req.user._id, {
-            $addToSet: {
-                watchHistory: videoId // $addToSet prevents duplicates
-            }
-        })
-    }
+    // if (req.user?._id) {
+    //     try {
+    //         await User.findByIdAndUpdate(req.user._id, {
+    //             $addToSet: {
+    //                 watchHistory: videoId // addToSet prevents duplicates
+    //             }
+    //         })
+    //     } catch (error) {
+    //         console.error("Error updating watch history:", error);
+    //     }
+    // }
 
-    // Update the views count in our response
-    video.views += 1
+    // video.views += 1
 
     return res
         .status(200)
@@ -460,7 +461,18 @@ const getVideoDetails = asyncHandler(async (req, res) => {
         }));
     }
 
-    // Attach to your response
+    await Video.findByIdAndUpdate(videoId, {
+        $inc: { views: 1 }
+    })
+
+    if (req.user?._id) {
+        await User.findByIdAndUpdate(req.user._id, {
+            $addToSet: { watchHistory: videoId }
+        })
+    }
+
+    video.views += 1;
+
     return res.status(200).json(
         new ApiResponse(200, {
             ...video.toObject(),

@@ -76,7 +76,7 @@ const WatchHistory = () => {
     setHistory((prev) => prev.filter((v) => v._id !== videoId));
   };
 
-  if (!user)  
+  if (!user)
     return (
       <div className="text-center mt-10">
         <div>Please login to see your watch history.</div>
@@ -94,7 +94,7 @@ const WatchHistory = () => {
         ) : (
           history.map((video) => (
             <div key={video._id} className="relative group">
-              <VideoCard video={video} />
+              <VideoCard video={video} showActions={false} />
               <button
                 onClick={() => handleRemove(video._id)}
                 className="absolute top-2 right-2 bg-black/70 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition cursor-pointer"
