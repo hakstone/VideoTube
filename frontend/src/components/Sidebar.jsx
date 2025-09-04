@@ -53,9 +53,7 @@ const Sidebar = () => {
               to="/dashboard"
               className={({ isActive }) =>
                 `flex items-center gap-3 px-5 py-2 rounded transition font-medium text-white
-                ${
-                  isActive ? "bg-gray-800 text-rose-600" : "hover:bg-gray-800"
-                }`
+                ${isActive ? "bg-gray-800 text-rose-600" : "hover:bg-gray-800"}`
               }
             >
               <FilmIcon className="w-5 h-5" />
@@ -65,21 +63,27 @@ const Sidebar = () => {
               to={`/channel/${user.username}`}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-5 py-2 rounded transition font-medium text-white
-                ${
-                  isActive ? "bg-gray-800 text-rose-600" : "hover:bg-gray-800"
-                }`
+                ${isActive ? "bg-gray-800 text-rose-600" : "hover:bg-gray-800"}`
               }
             >
               <UserCircleIcon className="w-5 h-5" />
               My Channel
             </NavLink>
             <NavLink
+              to={`/subscriptions/c/${user._id}`}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-5 py-2 rounded transition font-medium text-white
+                ${isActive ? "bg-gray-800 text-rose-600" : "hover:bg-gray-800"}`
+              }
+            >
+              <UserGroupIcon className="w-5 h-5" />
+              Subscriptions
+            </NavLink>
+            <NavLink
               to="/watch-history"
               className={({ isActive }) =>
                 `flex items-center gap-3 px-5 py-2 rounded transition font-medium text-white
-                ${
-                  isActive ? "bg-gray-800 text-rose-600" : "hover:bg-gray-800"
-                }`
+                ${isActive ? "bg-gray-800 text-rose-600" : "hover:bg-gray-800"}`
               }
             >
               <ClockIcon className="w-5 h-5" />

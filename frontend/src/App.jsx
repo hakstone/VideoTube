@@ -10,6 +10,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const VideoDetails = lazy(() => import("./pages/VideoDetails"));
 const Channel = lazy(() => import("./pages/Channel"));
+const Subscriptions = lazy(() => import("./pages/Subscriptions"));
 const Playlist = lazy(() => import("./pages/Playlist"));
 const Playlists = lazy(() => import("./pages/Playlists"));
 const Tweets = lazy(() => import("./pages/Tweets"));
@@ -40,6 +41,7 @@ function App() {
                 path="/dashboard"
                 element={user ? <Dashboard /> : <Login />}
               />
+              <Route path="/subscriptions/c/:userId" element={<Subscriptions />} />
               <Route path="/playlists" element={<Playlists />} />
               <Route path="/playlist/:playlistId" element={<Playlist />} />
               <Route path="/tweets" element={<Tweets />} />

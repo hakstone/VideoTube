@@ -17,7 +17,7 @@ const SubscriptionButton = ({ channelId, isSubscribed: initial, onToggle }) => {
   return (
     <button
       onClick={toggle}
-      className={`px-4 py-2 rounded font-semibold transition 
+      className={`px-4 py-2 rounded font-semibold transition cursor-pointer 
         ${
           subscribed
             ? "bg-gray-800 border border-rose-600 text-rose-600"
