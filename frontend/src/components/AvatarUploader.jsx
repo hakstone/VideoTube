@@ -28,14 +28,14 @@ const AvatarUploader = ({ avatarUrl, onUpload }) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-3 md:gap-4 p-4">
       <img
         src={avatarUrl}
         alt="avatar"
-        className="w-20 h-20 rounded-full border-2 border-rose-600 object-cover"
+        className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-20 lg:h-20 rounded-full border-2 border-rose-600 object-cover"
       />
       <button
-        className="px-3 py-1 rounded bg-rose-600 text-white font-semibold text-sm cursor-pointer"
+        className="px-3 py-1.5 md:px-4 md:py-2 rounded bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs sm:text-sm md:text-base cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={() => fileRef.current.click()}
         disabled={uploading}
       >

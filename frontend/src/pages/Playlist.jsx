@@ -25,21 +25,40 @@ const Playlist = () => {
   }, [playlistId]);
 
   if (!playlist)
-    return <div className="text-center mt-10">Loading playlist...</div>;
+    return (
+      <div className="text-center mt-10 px-4">
+        <div className="text-white text-lg sm:text-xl">Loading playlist...</div>
+      </div>
+    );
 
   return (
-    <div>
-      <div className="flex items-center gap-4 mb-2">
-        <h1 className="text-2xl text-white font-bold">{playlist.name}</h1>
-        <div className="text-gray-400 text-sm">
-          {playlist.totalVideos} videos
+    <div className="px-4 sm:px-6 lg:px-8 py-4">
+      {/* Playlist Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl text-white font-bold mb-2">
+            {playlist.name}
+          </h1>
+          <div className="text-gray-400 text-sm sm:text-base">
+            {playlist.totalVideos} videos
+          </div>
         </div>
       </div>
-      <div className="mb-4 text-gray-300">{playlist.description}</div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      {/* Description */}
+      {playlist.description && (
+        <div className="mb-6 text-gray-300 text-sm sm:text-base leading-relaxed">
+          {playlist.description}
+        </div>
+      )}
+
+      {/* Videos Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {playlist.videos?.length === 0 ? (
-          <div className="col-span-full text-gray-400">
-            No videos in this playlist.
+          <div className="col-span-full text-center py-12">
+            <div className="text-gray-400 text-base sm:text-lg">
+              No videos in this playlist.
+            </div>
           </div>
         ) : (
           playlist.videos?.map((v) => (
@@ -48,7 +67,7 @@ const Playlist = () => {
               {user?._id === playlist.owner?._id && (
                 <button
                   onClick={() => handleRemove(v._id)}
-                  className="absolute top-2 right-2 px-2 py-1 bg-red-600 text-xs text-white opacity-0 group-hover:opacity-100 hover:bg-red-700 rounded cursor-pointer transition-opacity duration-200"
+                  className="absolute top-2 right-2 px-2 py-1 bg-red-600 text-xs text-white opacity-0 group-hover:opacity-100 hover:bg-red-700 rounded transition-all duration-200 cursor-pointer"
                 >
                   Remove
                 </button>

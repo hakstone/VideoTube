@@ -30,61 +30,84 @@ const Channel = () => {
     // eslint-disable-next-line
   }, [username]);
 
-  if (!channel) return <div className="text-center mt-8">Loading...</div>;
+  if (!channel)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="text-xl text-gray-400">Loading...</div>
+        </div>
+      </div>
+    );
 
   return (
-    <div>
-      <div
-        className="rounded-lg overflow-hidden mb-6"
-        style={{
-          background: channel.coverImage
-            ? `url(${channel.coverImage}) center/cover`
-            : "#222",
-          minHeight: "180px",
-        }}
-      ></div>
-      <div className="flex items-center gap-6 mb-3">
-        <img
-          src={channel.avatar}
-          alt="avatar"
-          className="w-16 h-16 rounded-full border-2 border-rose-600"
+    <div className="min-h-screen bg-gray-950 text-white p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Cover Image */}
+        <div
+          className="rounded-lg overflow-hidden mb-6 h-32 sm:h-40 md:h-48 lg:h-56 xl:h-64"
+          style={{
+            background: channel.coverImage
+              ? `url(${channel.coverImage}) center/cover`
+              : "linear-gradient(135deg, #1f2937, #374151)",
+          }}
         />
-        <div>
-          <div className="text-2xl text-white font-bold">{channel.fullName}</div>
-          <div className="text-gray-400">@{channel.username}</div>
-          <div className="text-sm text-gray-400">
-            {channel.subscribersCount} subscribers
+
+        {/* Channel Info */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-6">
+          <img
+            src={channel.avatar}
+            alt="avatar"
+            className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full border-4 border-rose-600 object-cover"
+          />
+          <div className="flex-1">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">
+              {channel.fullName}
+            </h1>
+            <p className="text-gray-400 text-base sm:text-lg mb-1">
+              @{channel.username}
+            </p>
+            <p className="text-sm sm:text-base text-gray-400">
+              {channel.subscribersCount} subscribers
+            </p>
+          </div>
+          <div className="w-full sm:w-auto">
+            <SubscriptionButton
+              channelId={channel._id}
+              isSubscribed={channel.isSubscribed}
+            />
           </div>
         </div>
-        <div className="ml-auto">
-          <SubscriptionButton
-            channelId={channel._id}
-            isSubscribed={channel.isSubscribed}
-          />
+
+        {/* Playlists Section */}
+        <div className="mb-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
+            Playlists
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            {playlists.length === 0 ? (
+              <div className="col-span-full text-gray-400 text-center py-8">
+                No playlists found.
+              </div>
+            ) : (
+              playlists.map((p) => <PlaylistCard key={p._id} playlist={p} />)
+            )}
+          </div>
         </div>
-      </div>
-      <div className="mt-6">
-        <h3 className="text-white font-bold text-lg mb-2">Playlists</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {playlists.length === 0 ? (
-            <div className="text-gray-400 col-span-full">
-              No playlists found.
-            </div>
-          ) : (
-            playlists.map((p) => <PlaylistCard key={p._id} playlist={p} />)
-          )}
-        </div>
-      </div>
-      <div className="mt-10">
-        <h3 className="text-white font-bold text-lg mb-2">Videos</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {videos.length === 0 ? (
-            <div className="col-span-full text-gray-400">
-              No videos uploaded yet.
-            </div>
-          ) : (
-            videos.map((v) => <VideoCard key={v._id} video={v} />)
-          )}
+
+        {/* Videos Section */}
+        <div>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
+            Videos
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6">
+            {videos.length === 0 ? (
+              <div className="col-span-full text-gray-400 text-center py-8">
+                No videos uploaded yet.
+              </div>
+            ) : (
+              videos.map((v) => <VideoCard key={v._id} video={v} />)
+            )}
+          </div>
         </div>
       </div>
     </div>
