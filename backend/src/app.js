@@ -1,59 +1,15 @@
-// import express from 'express'
-// import cors from 'cors'
-// import cookieParser from 'cookie-parser'
-
-// const app = express()
-
-// app.use(cors({
-//     origin: process.env.CORS_ORIGIN,
-//     // origin: "http://localhost:5173",
-//     // origin: "https://video-tube-hf9u.vercel.app",
-//     credentials: true
-// }))
-
-// app.use(express.json({ limit: "16kb" }));
-// app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-// app.use(express.static("public"))
-// app.use(cookieParser())
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
 const app = express()
 
-
-// CORS configuration
-const corsOptions = {
-    origin: function (origin, callback) {
-        const allowedOrigins = [
-            process.env.CORS_ORIGIN,
-            'https://video-tube-hf9u.vercel.app',
-            'http://localhost:5173',
-            'http://localhost:3000'
-        ].filter(Boolean); // Remove any undefined values
-
-        // Allow requests with no origin (like mobile apps or Postman)
-        if (!origin) return callback(null, true);
-
-        if (allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            console.log('CORS blocked origin:', origin);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: [
-        'Origin',
-        'X-Requested-With',
-        'Content-Type',
-        'Accept',
-        'Authorization'
-    ]
-};
-
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    // origin: "http://localhost:5173",
+    // origin: "https://video-tube-hf9u.vercel.app",
+    credentials: true
+}))
 
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));

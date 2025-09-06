@@ -41,7 +41,7 @@ const VideoUploader = ({ onUploaded }) => {
     setUploading(true);
     try {
       await API.post("/videos", data, {
-        // headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data" },
       });
       toast.success("Video uploaded!");
       setForm({
