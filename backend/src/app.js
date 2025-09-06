@@ -5,9 +5,9 @@ import cookieParser from 'cookie-parser'
 const app = express()
 
 app.use(cors({
-    // origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN,
     // origin: "http://localhost:5173",
-    origin: "https://video-tube-hf9u.vercel.app",
+    // origin: "https://video-tube-hf9u.vercel.app",
     credentials: true
 }))
 
