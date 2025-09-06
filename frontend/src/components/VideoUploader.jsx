@@ -173,7 +173,7 @@ const VideoUploader = ({ onUploaded }) => {
   const fileThumbRef = useRef();
 
   // Cloudinary configuration
-  const CLOUDINARY_CLOUD_NAME = "ddfs57yfnjm";
+  const CLOUDINARY_CLOUD_NAME = "ds57yfnjm";
   const CLOUDINARY_UPLOAD_PRESET = "video_upload_preset"; // You'll need to create this
 
   const handleChange = (e) => {
