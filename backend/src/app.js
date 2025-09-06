@@ -38,6 +38,9 @@ app.use("/api/v1/playlist", playlistRouter)
 app.use("/api/v1/subscriptions", subscriptionRouter)
 app.use("/api/v1/healthcheck", healthcheckRouter)
 app.use("/api/v1/dashboard", dashboardRouter)
+app.get('/', (req, res) =>
+    res.send('Server is Live! ')
+);
 // http://localhost:8000/api/v1/users/register
 
 export { app }
