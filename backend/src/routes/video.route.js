@@ -39,7 +39,6 @@ import { Router } from 'express'
 import {
     getAllVideos,
     publishAVideo,
-    saveVideoMetadata, // NEW import
     getVideoById,
     getVideoDetails,
     updateVideo,
@@ -47,11 +46,11 @@ import {
     togglePublishStatus
 } from '../controllers/video.controller.js'
 import { verifyJWT } from "../middlewares/auth.middleware.js"
-import { upload } from '../middlewares/multer.middleware.js' // Fixed typo from 'milldeware'
+import { upload } from '../middlewares/multer.middleware.js' 
 
 const router = Router()
 
-router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
+router.use(verifyJWT); // Applying verifyJWT middleware to all routes in this file
 
 router
     .route('/')
@@ -70,10 +69,6 @@ router
         publishAVideo
     )
 
-// NEW: Route for handling metadata from direct Cloudinary uploads
-router
-    .route('/metadata')
-    .post(saveVideoMetadata);
 
 router
     .route("/:videoId")

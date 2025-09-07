@@ -77,15 +77,6 @@ const videoSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     },
-    // NEW: Store Cloudinary public IDs for future operations (delete, transform, etc.)
-    publicId: {
-        type: String, // Cloudinary public_id for the video
-        required: false
-    },
-    thumbnailPublicId: {
-        type: String, // Cloudinary public_id for the thumbnail
-        required: false
-    }
 }, { timestamps: true })
 
 videoSchema.plugin(mongooseAggregatePaginate)
