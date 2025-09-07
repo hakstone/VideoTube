@@ -234,7 +234,6 @@
 // };
 
 // export default VideoCard;
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -311,7 +310,7 @@ const VideoCardActions = ({ video }) => {
   return (
     <div className="px-3 md:px-4 pb-3 md:pb-4">
       {/* Horizontal scrollable container for action buttons */}
-      <div className="flex items-center gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 pb-2">
+      <div className="flex items-center gap-3 overflow-x-auto scrollbar-none hover:scrollbar-thin hover:scrollbar-thumb-gray-500/50 hover:scrollbar-track-transparent pb-2">
         {/* Add to Playlist Button (for all users) */}
         <div className="flex-shrink-0">
           <AddToPlaylistButton videoId={video._id} />
@@ -319,31 +318,31 @@ const VideoCardActions = ({ video }) => {
 
         {/* Owner Actions */}
         {isOwner && (
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center gap-3 flex-shrink-0">
             <button
               onClick={handleEdit}
-              className="p-1.5 md:p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1.5 whitespace-nowrap"
+              className="group px-3 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl transition-all duration-300 flex items-center gap-2 whitespace-nowrap shadow-lg hover:shadow-indigo-500/25 transform hover:scale-105 active:scale-95"
               title="Edit video"
             >
-              <PencilIcon className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
-              <span className="text-xs md:text-sm hidden sm:inline">Edit</span>
+              <PencilIcon className="w-4 h-4 flex-shrink-0 group-hover:rotate-12 transition-transform duration-300" />
+              <span className="text-sm font-medium hidden sm:inline">Edit</span>
             </button>
 
             <button
               onClick={handleTogglePublish}
-              className={`p-1.5 md:p-2 rounded-lg transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              className={`group px-3 py-2 rounded-xl transition-all duration-300 flex items-center gap-2 whitespace-nowrap shadow-lg transform hover:scale-105 active:scale-95 ${
                 video.isPublished
-                  ? "bg-yellow-600 hover:bg-yellow-700 text-white"
-                  : "bg-green-600 hover:bg-green-700 text-white"
+                  ? "bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white hover:shadow-amber-500/25"
+                  : "bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white hover:shadow-emerald-500/25"
               }`}
               title={video.isPublished ? "Unpublish video" : "Publish video"}
             >
               {video.isPublished ? (
-                <EyeSlashIcon className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                <EyeSlashIcon className="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
               ) : (
-                <EyeIcon className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                <EyeIcon className="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
               )}
-              <span className="text-xs md:text-sm hidden sm:inline">
+              <span className="text-sm font-medium hidden sm:inline">
                 {video.isPublished ? "Hide" : "Show"}
               </span>
             </button>
@@ -351,11 +350,11 @@ const VideoCardActions = ({ video }) => {
             <button
               onClick={openConfirmModal}
               disabled={isDeleting}
-              className="p-1.5 md:p-2 bg-red-600 hover:bg-red-700 disabled:bg-red-800 text-white rounded-lg transition-colors flex items-center gap-1.5 whitespace-nowrap"
+              className="group px-3 py-2 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 disabled:from-red-700 disabled:to-rose-800 text-white rounded-xl transition-all duration-300 flex items-center gap-2 whitespace-nowrap shadow-lg hover:shadow-red-500/25 transform hover:scale-105 active:scale-95 disabled:transform-none disabled:opacity-60"
               title="Delete video"
             >
-              <TrashIcon className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
-              <span className="text-xs md:text-sm hidden sm:inline">
+              <TrashIcon className="w-4 h-4 flex-shrink-0 group-hover:shake transition-transform duration-300" />
+              <span className="text-sm font-medium hidden sm:inline">
                 Delete
               </span>
             </button>
