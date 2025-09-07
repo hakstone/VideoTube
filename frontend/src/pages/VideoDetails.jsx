@@ -44,25 +44,6 @@ const VideoDetails = () => {
     fetchVideo();
   }, [videoId]);
 
-  // const handleDelete = async () => {
-  //   if (
-  //     !window.confirm(
-  //       "Are you sure you want to delete this video? This action cannot be undone."
-  //     )
-  //   ) {
-  //     return;
-  //   }
-
-  //   try {
-  //     await API.delete(`/videos/${videoId}`);
-  //     toast.success("Video deleted successfully!");
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error("Error deleting video:", error);
-  //     toast.error("Failed to delete video");
-  //   }
-  // };
-
   const handleDelete = async () => {
     setModalOpen(true);
   };
