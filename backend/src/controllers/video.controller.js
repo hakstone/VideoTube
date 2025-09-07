@@ -93,8 +93,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
     const video = await Video.create({
         title,
         description,
-        videoFile: videoFile.url,
-        thumbnail: thumbnail.url,
+        videoFile: videoFile.secure_url,
+        thumbnail: thumbnail.secure_url,
         duration: videoFile.duration,
         owner: userId,
         views: 0,
@@ -257,7 +257,7 @@ const updateVideo = asyncHandler(async (req, res) => {
         if (!thumbnail) {
             throw new ApiError(500, "Failed to upload thumbnail to cloudinary")
         }
-        thumbnailUrl = thumbnail.url;
+        thumbnailUrl = thumbnail.secure_url;
     }
 
     const video = await Video.findByIdAndUpdate(
