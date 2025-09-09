@@ -8,7 +8,9 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN,
     // origin: "http://localhost:5173",
     // origin: "https://video-tube-hf9u.vercel.app",
-    credentials: true
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }))
 
 app.use(express.json({ limit: "50mb" }));
