@@ -29,7 +29,7 @@ import { useAuth } from '../store/auth';
 
 // Create axios instance
 const API = axios.create({
-    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8000/api',
+    baseURL: "https://videotube-lo7n.onrender.com/api/v1",
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
