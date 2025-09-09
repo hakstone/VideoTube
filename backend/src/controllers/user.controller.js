@@ -171,7 +171,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: "none"
+        sameSite: "None"
     }
 
     return res
@@ -206,7 +206,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
-            sameSite: "none"
+            sameSite: "None"
         }
 
         // console.log("New refresh token is : ", newRefreshToken);
