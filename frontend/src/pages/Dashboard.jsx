@@ -4,7 +4,11 @@ import { useAuth } from "../store/auth";
 import VideoCard from "../components/VideoCard";
 import AvatarUploader from "../components/AvatarUploader";
 import { Link } from "react-router-dom";
-import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  PlusIcon,
+  XMarkIcon,
+  EllipsisVerticalIcon,
+} from "@heroicons/react/24/outline";
 import VideoManager from "../components/VideoManager";
 
 const Dashboard = () => {
@@ -12,6 +16,7 @@ const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [videos, setVideos] = useState([]);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
 
   // Edit profile form state
   const [editForm, setEditForm] = useState({
@@ -53,6 +58,22 @@ const Dashboard = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const toggleMenu = (videoId) => {
+    setActiveMenu(activeMenu === videoId ? null : videoId);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setActiveMenu(null);
+    };
+
+    if (activeMenu) {
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
+    }
+  }, [activeMenu]);
 
   useEffect(() => {
     fetchStats();
@@ -227,8 +248,35 @@ const Dashboard = () => {
             ) : (
               videos.map((video) => (
                 <div key={video._id} className="relative group">
-                  <VideoCard video={video} />
-                  <VideoManager video={video} onUpdated={fetchVideos} />
+                  <VideoCard video={video} showActions={false} />
+
+                  {/* Three Dots Menu Button */}
+                  <div className="absolute top-2 right-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleMenu(video._id);
+                      }}
+                      className="bg-black bg-opacity-70 hover:bg-opacity-90 text-white p-2 rounded-full transition-all duration-200 group-hover:opacity-100 sm:opacity-100 opacity-100"
+                    >
+                      <EllipsisVerticalIcon className="w-4 h-4" />
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {activeMenu === video._id && (
+                      <div
+                        className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="h-15 py-1">
+                          <VideoManager
+                            video={video}
+                            onUpdated={fetchVideos}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))
             )}

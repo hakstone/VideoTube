@@ -383,6 +383,67 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Username is missing")
     }
 
+    // const channel = await User.aggregate([
+    //     {
+    //         $match: {
+    //             username: username?.toLowerCase()
+    //         }
+    //     },
+    //     {
+    //         $lookup: {
+    //             from: "videos",
+    //             localField: '_id',
+    //             foreignField: 'owner',
+    //             as: 'videos'
+    //         }
+    //     },
+    //     {
+    //         $lookup: {
+    //             from: "subscriptions",
+    //             localField: "_id",
+    //             foreignField: "channel",
+    //             as: "subscribers"
+    //         }
+    //     },
+    //     {
+    //         $lookup: {
+    //             from: "subscriptions",
+    //             localField: "_id",
+    //             foreignField: "subscriber",
+    //             as: "subscribedTo"
+    //         }
+    //     },
+    //     {
+    //         $addFields: {
+    //             subscribersCount: {
+    //                 $size: "$subscribers"
+    //             },
+    //             channelSubscribedToCount: {
+    //                 $size: "$subscribedTo"
+    //             },
+    //             isSubscribed: {
+    //                 $cond: {
+    //                     if: { $in: [req.user?._id, "$subscribers.subscriber"] },
+    //                     then: true,
+    //                     else: false
+    //                 }
+    //             }
+    //         }
+    //     },
+    //     {
+    //         $project: {
+    //             fullName: 1,
+    //             username: 1,
+    //             subscribersCount: 1,
+    //             channelSubscribedToCount: 1,
+    //             isSubscribed: 1,
+    //             email: 1,
+    //             avatar: 1,
+    //             coverImage: 1,
+    //             videos: 1
+    //         }
+    //     }
+    // ])
     const channel = await User.aggregate([
         {
             $match: {
@@ -392,9 +453,32 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
         {
             $lookup: {
                 from: "videos",
-                localField: '_id',
-                foreignField: 'owner',
-                as: 'videos'
+                localField: "_id",
+                foreignField: "owner",
+                as: "videos",
+                pipeline: [
+                    {
+                        $lookup: {
+                            from: "users",
+                            localField: "owner",
+                            foreignField: "_id",
+                            as: "owner",
+                            pipeline: [
+                                {
+                                    $project: {
+                                        username: 1,
+                                        avatar: 1
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        $addFields: {
+                            owner: { $arrayElemAt: ["$owner", 0] }
+                        }
+                    }
+                ]
             }
         },
         {
@@ -415,12 +499,8 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
         },
         {
             $addFields: {
-                subscribersCount: {
-                    $size: "$subscribers"
-                },
-                channelSubscribedToCount: {
-                    $size: "$subscribedTo"
-                },
+                subscribersCount: { $size: "$subscribers" },
+                channelSubscribedToCount: { $size: "$subscribedTo" },
                 isSubscribed: {
                     $cond: {
                         if: { $in: [req.user?._id, "$subscribers.subscriber"] },
@@ -443,7 +523,8 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
                 videos: 1
             }
         }
-    ])
+    ]);
+
 
     // console.log("Channel : ", channel);
 

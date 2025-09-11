@@ -32,13 +32,14 @@ const VideoManager = ({ video, onUpdated }) => {
 
   return (
     <div className="text-black">
-      <div className="absolute top-2 right-2 flex gap-1 md:gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+      <div className="absolute top-2 right-2 flex gap-1 md:gap-2 z-10 opacity-100 transition-opacity duration-200">
         <button
           className="bg-white/90 hover:bg-white text-black p-1.5 md:p-2 rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer"
           title="Edit"
           onClick={() => setShowEditor(true)}
         >
-          <PencilIcon className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5" />
+          {/* <PencilIcon className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5" /> */}
+          Edit
         </button>
         <button
           className="bg-red-600 hover:bg-red-700 text-white p-1.5 md:p-2 rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -49,7 +50,8 @@ const VideoManager = ({ video, onUpdated }) => {
           {deleting ? (
             <div className="animate-spin rounded-full w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 border-2 border-white border-t-transparent" />
           ) : (
-            <TrashIcon className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5" />
+            // <TrashIcon className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5" />
+            "Delete"
           )}
         </button>
       </div>

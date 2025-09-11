@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import API from "../api/api";
 import PlaylistCard from "../components/PlaylistCard";
 import { useAuth } from "../store/auth";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import {
+  PlusIcon,
+  TrashIcon,
+  EllipsisVerticalIcon,
+} from "@heroicons/react/24/outline";
 import ConfirmationModal from "../components/ConfirmationModal";
 
 const Playlists = () => {
@@ -13,6 +17,7 @@ const Playlists = () => {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [activeMenu, setActiveMenu] = useState(null);
 
   const fetchPlaylists = async () => {
     if (!user) return;
@@ -25,6 +30,7 @@ const Playlists = () => {
   const handleDelete = (playlistId) => {
     setPendingDelete(playlistId);
     setModalOpen(true);
+    setActiveMenu(null);
   };
 
   const confirmDelete = async () => {
@@ -33,6 +39,22 @@ const Playlists = () => {
     setModalOpen(false);
     fetchPlaylists();
   };
+
+  const toggleMenu = (playlistId) => {
+    setActiveMenu(activeMenu === playlistId ? null : playlistId);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setActiveMenu(null);
+    };
+
+    if (activeMenu) {
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
+    }
+  }, [activeMenu]);
 
   useEffect(() => {
     fetchPlaylists();
@@ -136,17 +158,42 @@ const Playlists = () => {
             <div key={p._id} className="relative group">
               <PlaylistCard playlist={p} />
               {user?._id === (p.owner?._id || p.owner) && (
-                <button
-                  onClick={() => handleDelete(p._id)}
-                  className="absolute top-2 right-2 px-2 py-1 bg-red-600 text-xs text-white rounded hover:bg-red-700 opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer"
-                >
-                  Delete
-                </button>
+                <div className="absolute top-2 right-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleMenu(p._id);
+                    }}
+                    className="bg-black bg-opacity-70 hover:bg-opacity-90 text-white p-2 rounded-full transition-all duration-200 group-hover:opacity-100 sm:opacity-100 opacity-100"
+                  >
+                    <EllipsisVerticalIcon className="w-4 h-4" />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {activeMenu === p._id && (
+                    <div
+                      className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="py-1">
+                        <button
+                          onClick={() => handleDelete(p._id)}
+                          className="w-full px-4 py-2 text-left text-red-400 hover:bg-gray-700 flex items-center gap-3 text-sm transition-colors duration-200"
+                        >
+                          <TrashIcon className="w-4 h-4" />
+                          Delete playlist
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           ))
         )}
       </div>
+
+      {/* Confirmation Modal */}
       <ConfirmationModal
         open={modalOpen}
         title="Delete Playlist"

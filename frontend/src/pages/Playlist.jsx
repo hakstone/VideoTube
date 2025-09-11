@@ -3,11 +3,13 @@ import { useParams } from "react-router-dom";
 import API from "../api/api";
 import VideoCard from "../components/VideoCard";
 import { useAuth } from "../store/auth";
+import { TrashIcon, EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 const Playlist = () => {
   const { playlistId } = useParams();
   const { user } = useAuth();
   const [playlist, setPlaylist] = useState(null);
+  const [activeMenu, setActiveMenu] = useState(null);
 
   const fetchPlaylist = async () => {
     const res = await API.get(`/playlist/${playlistId}`);
@@ -16,8 +18,25 @@ const Playlist = () => {
 
   const handleRemove = async (videoId) => {
     await API.patch(`/playlist/remove/${videoId}/${playlist._id}`);
+    setActiveMenu(null);
     fetchPlaylist();
   };
+
+  const toggleMenu = (videoId) => {
+    setActiveMenu(activeMenu === videoId ? null : videoId);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setActiveMenu(null);
+    };
+
+    if (activeMenu) {
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
+    }
+  }, [activeMenu]);
 
   useEffect(() => {
     fetchPlaylist();
@@ -63,14 +82,37 @@ const Playlist = () => {
         ) : (
           playlist.videos?.map((v) => (
             <div key={v._id} className="relative group">
-              <VideoCard video={v} />
+              <VideoCard video={v} showActions={false} />
               {user?._id === playlist.owner?._id && (
-                <button
-                  onClick={() => handleRemove(v._id)}
-                  className="absolute top-2 right-2 px-2 py-1 bg-red-600 text-xs text-white opacity-0 group-hover:opacity-100 hover:bg-red-700 rounded transition-all duration-200 cursor-pointer"
-                >
-                  Remove
-                </button>
+                <div className="absolute top-2 right-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleMenu(v._id);
+                    }}
+                    className="bg-black bg-opacity-70 hover:bg-opacity-90 text-white p-2 rounded-full transition-all duration-200 group-hover:opacity-100 sm:opacity-100 opacity-100"
+                  >
+                    <EllipsisVerticalIcon className="w-4 h-4" />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {activeMenu === v._id && (
+                    <div
+                      className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="py-1">
+                        <button
+                          onClick={() => handleRemove(v._id)}
+                          className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 flex items-center gap-3 text-sm transition-colors duration-200"
+                        >
+                          <TrashIcon className="w-4 h-4" />
+                          Remove from playlist
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           ))

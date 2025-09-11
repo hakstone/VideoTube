@@ -105,7 +105,9 @@ const Channel = () => {
                 No videos uploaded yet.
               </div>
             ) : (
-              videos.map((v) => <VideoCard key={v._id} video={v} />)
+              videos.map((v) => (
+                <VideoCard key={v._id} video={v} showActions={false} />
+              ))
             )}
           </div>
         </div>
