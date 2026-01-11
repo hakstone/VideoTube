@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const API = axios.create({
-    baseURL: "http://localhost:8000/api/v1",
+    baseURL: "https://video-tube-omega.vercel.app/api/v1",
     // baseURL: "https://videotube-lo7n.onrender.com/api/v1",
     withCredentials: true,
 });
